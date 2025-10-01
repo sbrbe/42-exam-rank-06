@@ -23,6 +23,7 @@ cc -Wall -Wextra -Werror mini_serv.c -o mini_serv
 ```
 Le serveur écoute en local sur 127.0.0.1:4242.
 Test rapide avec netcat :
+
 Terminal 2:
 ```
 nc 127.0.0.1 4242   # client A
