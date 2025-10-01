@@ -15,12 +15,22 @@ Le but de l’exam06 est d’implémenter un petit serveur TCP capable de :
 
 ---
 ## Compilation & lancement
+
+Terminal 1:
+```
 cc -Wall -Wextra -Werror mini_serv.c -o mini_serv
 ./mini_serv 4242
+```
 Le serveur écoute en local sur 127.0.0.1:4242.
 Test rapide avec netcat :
+Terminal 2:
+```
 nc 127.0.0.1 4242   # client A
+```
+Terminal 3:
+```
 nc 127.0.0.1 4242   # client B
+```
 Tape une ligne dans A → elle s’affiche chez B (et inversement).
 
 ---
