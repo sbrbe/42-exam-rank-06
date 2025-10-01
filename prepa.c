@@ -4,10 +4,9 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <sys/select.h> //enlever <netdb.h>
+#include <sys/select.h>
 
-static const int MAX_MSG_SIZE = 1000000; //define
-static const int MAX_CLIENTS  = 1024; //define
+static const int MAX_MSG_SIZE = 1000000;
 
 typedef struct s_client
 {
@@ -15,7 +14,7 @@ typedef struct s_client
 	char msg[1000000];
 } t_client;
 
-t_client clients[MAX_CLIENTS];
+t_client clients[1024];
 
 int current_id = 0, maxfd = 0;
 
@@ -31,7 +30,7 @@ void send_broadcast(int accepted, int sockfd)
 {
 	for (int fd = 0; fd <= maxfd; fd++)
 	{
-		if (fd == sockfd || fd == accepted) // pas sockfd ici 
+		if (fd == sockfd || fd == accepted)
 			continue;
 		if (FD_ISSET(fd, &write_set) && send(fd, send_buffer, strlen(send_buffer), 0) == -1)
 			err(NULL);
@@ -47,14 +46,14 @@ int main(int ac, char **av)
 
 	if (sockfd == -1) err(NULL);
 
-	memset(&servaddr, 0, sizeof(servaddr)); //	bzero(&servaddr, sizeof(servaddr)); 
+	memset(&servaddr, 0, sizeof(servaddr));
 
 	FD_ZERO(&current);
 	FD_SET(sockfd, &current);
 	maxfd = sockfd;
 
 	servaddr.sin_family = AF_INET;
-	servaddr.sin_addr.s_addr = htonl(2130706433); // 127.0.0.1
+	servaddr.sin_addr.s_addr = htonl(2130706433);
 	servaddr.sin_port = htons(atoi(av[1]));
 
 	if (bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr)) != 0) err(NULL);
@@ -65,7 +64,7 @@ int main(int ac, char **av)
 		read_set = current;
 		write_set = current;
 
-		FD_CLR(sockfd, &write_set); // pas la sur l autre
+		FD_CLR(sockfd, &write_set);
 
 		if (select(maxfd + 1, &read_set, &write_set, NULL, NULL) == -1) err(NULL);
 
@@ -76,7 +75,7 @@ int main(int ac, char **av)
 			if (fd == sockfd)
 			{
 				struct sockaddr_in cli;
-				memset(&cli, 0, sizeof(cli)); //bzero(&cli, sizeof(cli));
+				memset(&cli, 0, sizeof(cli));
 				socklen_t len = sizeof(cli);
 				connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
 				if (connfd < 0) err(NULL);
@@ -84,7 +83,7 @@ int main(int ac, char **av)
 				if (connfd > maxfd) maxfd = connfd;
 
 				clients[connfd].id = current_id++;
-				memset(clients[connfd].msg, 0, MAX_MSG_SIZE); // rajouter
+				memset(clients[connfd].msg, 0, MAX_MSG_SIZE);
 				FD_SET(connfd, &current);
 
 				sprintf(send_buffer, "server: client %d just arrived\n", clients[connfd].id);
@@ -99,7 +98,7 @@ int main(int ac, char **av)
 					send_broadcast(fd, sockfd);
 					FD_CLR(fd, &current);
 					close(fd);
-					memset(clients[fd].msg, 0, MAX_MSG_SIZE); // 	rajouter
+					memset(clients[fd].msg, 0, MAX_MSG_SIZE);
 				}
 				else
 				{
@@ -113,7 +112,7 @@ int main(int ac, char **av)
 							clients[fd].msg[j] = '\0';
 							sprintf(send_buffer, "client %d: %s\n", clients[fd].id, clients[fd].msg);
 							send_broadcast(fd, sockfd);
-							memset(clients[fd].msg, 0, MAX_MSG_SIZE); // bzero(clients[fd].msg, strlen(clients[fd].msg));
+							memset(clients[fd].msg, 0, MAX_MSG_SIZE);
 							j = -1;
 						}
 					}
