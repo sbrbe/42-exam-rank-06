@@ -46,21 +46,21 @@ server: client X just arrived
 server: client X just left
 
 ---
-## Particularité des tests Grademe
+## Particularité des tests Grademe ⚠️
 Les scénarios du correcteur changent à chaque run (timing, nombre de clients, séquence d’événements).
 Il est normal qu’un test échoue au premier essai.
 Si un test échoue, il faut lancer le suivant (test 2, test 3, etc.).
-Dans mon cas, le code a validé au 4ᵉ test sans devoir changer le code.
+⚠️⚠️⚠️Dans mon cas, le code a validé au 4ᵉ test sans devoir changer le code. ⚠️⚠️⚠️
 
-⚠️ Donc ne paniquez pas si tout ne passe pas directement, c’est attendu.
-✅ Résultat
+Donc ne paniquez pas si tout ne passe pas directement, c’est attendu.
+Résultat
 L’examen est validé.
 
 Le serveur passe les tests Grademe même si parfois il faut plusieurs runs.
 Robustesse et gestion des cas limites (messages coupés, multiples lignes dans un même recv, départs inopinés) sont essentielles.
 
 ---
-##Notes
+## Notes
 L’adresse IP 2130706433 correspond à 127.0.0.1 (localhost).
 Les buffers sont volontairement grands pour simplifier la gestion.
 Pas d’allocation dynamique → tout est en statique, plus sûr dans un contexte d’examen.
