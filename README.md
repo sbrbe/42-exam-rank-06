@@ -1,5 +1,7 @@
 ##                 Exam06 – Mini-serveur TCP
 
+42 exam rank 06 | 42 Cursus complete
+
 ![Exam06 Aperçu](./exam-06.png)
 ---
 
