@@ -47,10 +47,11 @@ server: client X just left
 
 ---
 ## Particularité des tests Grademe ⚠️
-Les scénarios du correcteur changent à chaque run (timing, nombre de clients, séquence d’événements).
-Il est normal qu’un test échoue au premier essai.
+Les tests du correcteur changent à chaque run (timing, nombre de clients, séquence d’événements).
+Il est possible qu’un test échoue au premier essai.
 Si un test échoue, il faut lancer le suivant (test 2, test 3, etc.).
-⚠️⚠️⚠️Dans mon cas, le code a validé au 4ᵉ test sans devoir changer le code. ⚠️⚠️⚠️
+
+⚠️⚠️⚠️Dans mon cas, le code a été validé au 4ᵉ test sans devoir changer le code. ⚠️⚠️⚠️
 
 Donc ne paniquez pas si tout ne passe pas directement, c’est attendu.
 Résultat
